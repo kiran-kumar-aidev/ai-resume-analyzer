@@ -35,56 +35,19 @@ The objective of this project is to build a GenAI-powered application that helps
 | Embedding Library | Sentence Transformers |
 | Configuration | Python-dotenv |
 
+
 ## Application Architecture
 
-Resume PDF + Job Description
-        |
-        v
-   Streamlit UI
-        |
-        v
-   Resume Text Extraction
-        |
-        v
-   Groq LLM - Skill & Experience Extraction
-        |
-        +--------------------------+
-        |                          |
-        v                          v
-   Skill Comparison          Experience Analysis
-        |                          |
-        v                          v
-   Missing Skills            Experience Match
-        |                          |
-        +------------+-------------+
-                     |
-                     v
-               ATS Scoring
-                     |
-                     v
-             AI Recommendations
-                     |
-                     v
-                Final Report
+1. Streamlit accepts the resume PDF and job description.
+2. PyPDF extracts resume text.
+3. Groq + LangChain extracts candidate skills, experience, and job requirements.
+4. Python performs skill matching and experience analysis.
+5. Sentence Transformers generates embeddings for resume chunks.
+6. FAISS retrieves the top 5 relevant resume sections.
+7. Python calculates the indicative ATS score.
+8. Groq + LangChain generates recommendations using the full resume, job description, analysis results, and retrieved sections.
+9. Streamlit displays the results and downloadable report.
 
-Additional semantic retrieval flow:
-
-Resume Text
-     |
-     v
-Sentence Transformers
-     |
-     v
-Embedding Generation
-     |
-     v
-FAISS Vector Index
-     |
-     v
-Relevant Resume Sections
-     |
-     v
-Streamlit Results Display
 
 ## System Architecture
 ![AI Resume Analyzer Architecture](docs/architecture.png)
@@ -94,29 +57,38 @@ Streamlit Results Display
 
 ai-resume-analyzer/
 │
-├── data/
-│   └── sample_resume.pdf
-│
 ├── src/
-│   ├── resume_parser.py
+│   ├── resumeparser.py
 │   ├── jd_parser.py
 │   ├── skill_extractor.py
 │   ├── skill_matcher.py
-│   ├── experience_analyzer.py
+│   ├── experience_analyser.py
 │   ├── ats_scorer.py
-│   ├── recommendations.py
+│   ├── recommendation.py
 │   ├── report_generator.py
-│   ├── embeddings.py
 │   ├── vector_store.py
 │   └── workflow.py
 │
+├── tests/
+│   ├── test_ats_scorer.py
+│   ├── test_embeddings.py
+│   ├── test_experience_analyser.py
+│   ├── test_recommendation.py
+│   ├── test_skill_extractor.py
+│   ├── test_skill_matched.py
+│   ├── test_vector_store.py
+│   └── test_workflow.py
+│
+├── docs/
+│   └── architecture.png
+│
 ├── app.py
+├── README.md
 ├── requirements.txt
 ├── requirements-lock.txt
-├── .env
 ├── .env.example
-├── .gitignore
-└── README.md
+└── .gitignore
+
 
 ## Setup Instructions
 
